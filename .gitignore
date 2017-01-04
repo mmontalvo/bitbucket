@@ -17,3 +17,5 @@ coverage
 tags
 /.idea
 .ruby-gemset
+/nbproject/private/
+/nbproject

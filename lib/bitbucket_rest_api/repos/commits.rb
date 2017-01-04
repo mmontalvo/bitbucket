@@ -36,5 +36,14 @@ module BitBucket
     end
     alias :all :list
 
+    def get_repo_commit_diff(user_name, repo_name, sha, params = {})
+      _update_user_repo_params(user_name, repo_name)
+      _validate_user_repo_params(user, repo) unless user? && repo?
+      normalize! params
+
+      response = request(:get, "/2.0/repositories/#{user}/#{repo.downcase}/patch/#{sha}", params)
+      return response unless block_given?
+    end
+
   end # Repos::Commits
 end # BitBucket
