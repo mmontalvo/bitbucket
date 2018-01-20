@@ -97,7 +97,13 @@ module BitBucket
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
-      response = request(:get, "/2.0/repositories/#{user}/#{repo.downcase}/pullrequests/#{pull_request_id}/diff", params)
+      response =
+        begin
+          request(:get, "/2.0/repositories/#{user}/#{repo.downcase}/pullrequests/#{pull_request_id}/diff", params)
+        rescue Exception => e
+          request(:get, e.to_s, params)
+        end
+
       return response unless block_given?
     end
 

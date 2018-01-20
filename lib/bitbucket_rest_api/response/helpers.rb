@@ -14,7 +14,8 @@ module BitBucket
         end
 
       RUBY_EVAL
-      env[:body].instance_eval { @env = env }
+      env[:body] ? env[:body].instance_eval { @env = env } :
+        raise(StandardError.new(env[:response].env.response_headers[:location].gsub('https://api.bitbucket.org/', '')))
     end
 
   end # Response::Helpers
